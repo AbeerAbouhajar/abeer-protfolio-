@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settling in Ireland — UX Case Study · Abeer AbouHajar</title>
+<meta name="description" content="A UX case study by Abeer AbouHajar: helping new arrivals in Ireland register with a GP. Research-led, bilingual (English / Arabic RTL) service design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f5f1ea; --surface:#fffdf9; --surface-2:#efe9df; --text:#1f1b17; --muted:#6c655c;
+  --line:rgba(31,27,23,.12); --accent:#b4552f; --accent-soft:rgba(180,85,47,.1);
+  --green:#16845a; --green-soft:#e4f3ec;
+  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  --shadow:0 2px 20px rgba(60,40,20,.08); --shadow-lg:0 24px 60px rgba(60,40,20,.16);
+}
+[data-theme="dark"]{
+  --bg:#14120f; --surface:#1d1a15; --surface-2:#262219; --text:#f1ece3; --muted:#a79e91;
+  --line:rgba(241,236,227,.14); --accent:#e08a63; --accent-soft:rgba(224,138,99,.14);
+  --green:#3fae82; --green-soft:rgba(63,174,130,.16);
+  --shadow:0 2px 20px rgba(0,0,0,.4); --shadow-lg:0 24px 60px rgba(0,0,0,.55);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;transition:background .45s,color .45s;overflow-x:hidden}
+.wrap{max-width:860px;margin:0 auto;padding:0 1.6rem}
+.wide{max-width:1120px}
+a{color:var(--accent)}
+
+/* nav */
+nav{position:fixed;inset:0 0 auto 0;z-index:60;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 1.6rem;transition:background .3s,box-shadow .3s}
+nav.scrolled{background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.back-link{font-size:.75rem;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none;color:var(--text);display:inline-flex;align-items:center;gap:.5rem}
+.back-link:hover{color:var(--accent)}
+.tt{width:36px;height:36px;border:1.5px solid var(--line);border-radius:50%;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text);transition:transform .5s,border-color .3s}
+.tt:hover{transform:rotate(35deg);border-color:var(--accent)}
+.tt svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round}
+.tt .moon{display:none}[data-theme="dark"] .tt .sun{display:none}[data-theme="dark"] .tt .moon{display:block}
+
+/* hero */
+.hero{padding:9rem 0 3rem}
+.eyebrow{font-size:.74rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:1.3rem}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.05;letter-spacing:-.5px}
+.hero .lead{margin-top:1.4rem;font-size:1.15rem;color:var(--muted);max-width:60ch;line-height:1.8}
+.meta{display:flex;flex-wrap:wrap;gap:2.2rem;margin-top:2.4rem;padding:1.6rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.meta .m h5{font-size:.64rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.4rem}
+.meta .m p{font-size:.92rem;font-weight:500}
+
+/* status banner */
+.banner{display:flex;gap:.9rem;align-items:flex-start;background:var(--green-soft);border:1px solid color-mix(in srgb,var(--green) 35%,transparent);border-radius:14px;padding:1.1rem 1.3rem;margin:2.5rem 0 0;font-size:.92rem;line-height:1.6}
+.banner .i{font-size:1.1rem;line-height:1.4}
+.banner b{color:var(--text)}
+
+/* hero image */
+.hero-shot{margin:3rem 0 1rem;background:radial-gradient(900px 400px at 50% 0,var(--surface-2),transparent);border-radius:20px;padding:2rem 1rem;display:flex;justify-content:center}
+.hero-shot img{max-width:100%;border-radius:14px}
+
+/* sections */
+section.block{padding:3rem 0}
+.sec-no{font-family:var(--serif);font-size:.95rem;color:var(--accent);font-weight:500;font-style:italic;margin-bottom:.4rem}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.7rem,3.6vw,2.5rem);letter-spacing:-.3px;margin-bottom:1.2rem;line-height:1.15}
+h3{font-family:var(--serif);font-weight:500;font-size:1.3rem;margin:2rem 0 .8rem}
+p{margin-bottom:1.1rem;color:var(--text)}
+p.sub{color:var(--muted)}
+ul,ol{margin:0 0 1.1rem 1.2rem}
+li{margin-bottom:.5rem}
+strong{font-weight:600}
+hr{border:none;border-top:1px solid var(--line);margin:0}
+
+/* callouts */
+.hyp{position:relative;background:var(--surface);border:1px solid var(--line);border-inline-start:3px solid var(--accent);border-radius:10px;padding:1rem 1.2rem;margin:1.2rem 0;font-size:.95rem}
+.hyp .tag{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+.todo-pill{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);background:var(--surface-2);border-radius:20px;padding:.25rem .6rem;margin-inline-start:.5rem;vertical-align:middle}
+.placeholder{border:1.5px dashed var(--line);border-radius:12px;padding:1.4rem;color:var(--muted);font-size:.92rem;background:repeating-linear-gradient(45deg,transparent,transparent 10px,color-mix(in srgb,var(--surface-2) 50%,transparent) 10px,color-mix(in srgb,var(--surface-2) 50%,transparent) 20px);text-align:center}
+
+/* cards grid */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.4rem 0}
+.mini{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.2rem;box-shadow:var(--shadow)}
+.mini .big{font-family:var(--serif);font-size:1.8rem;color:var(--accent)}
+.mini h4{font-size:.95rem;margin:.5rem 0 .3rem}
+.mini p{font-size:.84rem;color:var(--muted);margin:0}
+
+/* persona */
+.persona{display:grid;grid-template-columns:auto 1fr;gap:1.4rem;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:1.6rem;box-shadow:var(--shadow);align-items:start}
+.persona .avatar{width:80px;height:80px;border-radius:50%;background:var(--green-soft);display:flex;align-items:center;justify-content:center;font-size:2.2rem}
+.persona h4{font-family:var(--serif);font-size:1.4rem;font-weight:500}
+.persona .role{color:var(--muted);font-size:.9rem;margin-bottom:.8rem}
+.persona .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.6rem}
+.persona .grid2 h6{font-size:.66rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.4rem}
+.persona .grid2 ul{margin-left:1rem;font-size:.88rem}
+
+/* journey */
+.journey{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem;margin:1.4rem 0;font-size:.8rem}
+.journey .stage{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.9rem .7rem;text-align:center}
+.journey .stage .st{font-weight:600;font-size:.82rem;margin-bottom:.5rem}
+.journey .stage .em{font-size:1.3rem}
+.journey .stage .fe{color:var(--muted);font-size:.72rem;margin-top:.4rem;min-height:2.6em}
+.journey .stage.low{border-color:color-mix(in srgb,var(--accent) 45%,transparent);background:var(--accent-soft)}
+
+/* prototype gallery */
+.shots{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin:1.6rem 0}
+.shots figure{margin:0;background:var(--surface-2);border-radius:12px;padding:.5rem;border:1px solid var(--line)}
+.shots img{width:100%;border-radius:8px;display:block}
+.shots figcaption{font-size:.74rem;color:var(--muted);text-align:center;margin-top:.5rem;font-weight:500}
+.rtl-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin:1rem 0}
+.rtl-row figure{margin:0;background:var(--surface-2);border-radius:12px;padding:.5rem;border:1px solid var(--line)}
+.rtl-row img{width:100%;border-radius:8px}
+.rtl-row figcaption{font-size:.74rem;color:var(--muted);text-align:center;margin-top:.5rem;font-weight:500}
+
+/* live prototype embed */
+.proto-embed{margin:1.6rem 0;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lg);background:var(--surface-2)}
+.proto-embed .bar{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;background:var(--surface);border-bottom:1px solid var(--line);font-size:.8rem;color:var(--muted)}
+.proto-embed .dot{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.proto-embed iframe{width:100%;height:860px;border:none;display:block;background:#eef1f4}
+.btn-live{display:inline-flex;align-items:center;gap:.5rem;background:var(--green);color:#fff;text-decoration:none;font-weight:600;font-size:.9rem;padding:.8rem 1.4rem;border-radius:40px;margin-top:.4rem}
+
+/* research kit box */
+.kit{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:1.6rem 1.8rem;margin:1.4rem 0;box-shadow:var(--shadow)}
+.kit h4{font-family:var(--serif);font-weight:500;font-size:1.2rem;margin:1.4rem 0 .6rem}
+.kit h4:first-child{margin-top:0}
+.kit ol{margin-left:1.2rem}
+.kit .q{margin-bottom:.6rem}
+.script{font-family:var(--sans);background:var(--surface-2);border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:var(--text);margin:.6rem 0}
+.script .you{color:var(--accent);font-weight:600}
+
+footer{border-top:1px solid var(--line);padding:3.5rem 0;text-align:center;margin-top:2rem}
+footer .big{font-family:var(--serif);font-size:1.6rem;margin-bottom:1rem}
+footer a{font-weight:600;text-decoration:none}
+footer small{display:block;color:var(--muted);font-size:.74rem;margin-top:1.4rem}
+
+@media(max-width:760px){
+  .cards3{grid-template-columns:1fr}
+  .shots{grid-template-columns:repeat(2,1fr)}
+  .rtl-row{grid-template-columns:1fr}
+  .journey{grid-template-columns:1fr 1fr}
+  .persona{grid-template-columns:1fr}
+  .proto-embed iframe{height:760px}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="back-link" href="../index.html">← Back to portfolio</a>
+  <button class="tt" id="tt" aria-label="Toggle light / dark theme">
+    <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>
+    <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+  </button>
+</nav>
+
+<header class="hero wrap">
+  <div class="eyebrow">UX Case Study · Service &amp; Product Design</div>
+  <h1>Settling in Ireland</h1>
+  <p class="lead">Moving to a new country means navigating a maze of disconnected, bureaucratic steps. This project helps new arrivals in Ireland get set up — starting with one of the most important and confusing tasks: <strong>registering with a GP (family doctor)</strong>.</p>
+  <div class="meta">
+    <div class="m"><h5>My role</h5><p>UX research, interaction &amp; UI design, prototyping</p></div>
+    <div class="m"><h5>Timeline</h5><p>Self-initiated · ongoing</p></div>
+    <div class="m"><h5>Platform</h5><p>Mobile app (iOS/Android)</p></div>
+    <div class="m"><h5>Tools</h5><p>Figma, HTML prototype</p></div>
+  </div>
+  <div class="banner">
+    <span class="i">🔬</span>
+    <span><b>This is a live, in-progress case study.</b> The problem framing, design decisions and prototype below are real. The research findings are shown as <b>hypotheses to validate</b> — the interview &amp; testing scripts are ready to run, and this page will be updated with real evidence as the study progresses. Nothing here is presented as a finding until it has been tested with real people.</span>
+  </div>
+  <div class="hero-shot">
+    <img src="shots/page-overview.png" alt="The Settling in Ireland prototype shown in a phone frame">
+  </div>
+</header>
+
+<main>
+
+<!-- 1 OVERVIEW -->
+<section class="block wrap">
+  <div class="sec-no">01 — Overview</div>
+  <h2>The one-line version</h2>
+  <p>New arrivals in Ireland — international students, workers, refugees and their families — have to complete a long list of unconnected admin tasks (PPS number, GP, bank account, Leap card, housing) with no single, trustworthy guide. <strong>Settling in Ireland</strong> is a mobile companion that turns that chaos into a clear, step-by-step checklist. This case study goes deep on one flow: <strong>registering with a GP</strong>.</p>
+  <p class="sub">Why this project: it's a genuinely hard, emotional, real-world problem with users I can actually reach and interview — and it lets me design for <strong>accessibility and localization</strong> (including full Arabic right-to-left support), which is rarely shown in a junior portfolio.</p>
+</section>
+<div class="wrap"><hr></div>
+
+<!-- 2 PROBLEM -->
+<section class="block wrap">
+  <div class="sec-no">02 — Problem &amp; context</div>
+  <h2>Getting a doctor shouldn't be this hard</h2>
+  <p>In Ireland, there's no automatic assignment to a GP. You have to find a practice yourself, check whether they're accepting new patients, understand whether you need a medical card, and bring the right documents. For someone new to the country — possibly in a new language — this is genuinely confusing and often delayed until there's an emergency.</p>
+  <p>The information exists, but it's <strong>scattered</strong> across the HSE website, forums, Facebook groups, and word of mouth. There's no single place that says: <em>here are the doctors near you taking patients, here's what you need, here's what it costs.</em></p>
+  <div class="cards3">
+    <div class="mini"><div class="big">5+</div><h4>disconnected tasks</h4><p>to feel "set up" in a new country</p></div>
+    <div class="mini"><div class="big">0</div><h4>official guided flows</h4><p>that walk a newcomer through GP registration</p></div>
+    <div class="mini"><div class="big">2+</div><h4>languages</h4><p>many newcomers are more comfortable in — including Arabic (RTL)</p></div>
+  </div>
+  <p class="sub">The numbers above frame the problem from desk research and lived experience; the user pain behind them is what the interviews below will test.</p>
+</section>
+<div class="wrap"><hr></div>
+
+<!-- 3 GOALS -->
+<section class="block wrap">
+  <div class="sec-no">03 — Goals &amp; scope</div>
+  <h2>What this needs to do</h2>
+  <p>Rather than design an entire super-app, I scoped the case study to <strong>one end-to-end flow</strong> so I could take it to real depth: <strong>"I'm new here and I need to register with a GP."</strong></p>
+  <h3>Design goals</h3>
+  <ul>
+    <li><strong>Reduce uncertainty</strong> — always show the next step and what it costs.</li>
+    <li><strong>Only surface relevant options</strong> — practices nearby that are actually accepting patients.</li>
+    <li><strong>Lower the language barrier</strong> — full English and Arabic (RTL), and surface GPs whose staff speak the user's language.</li>
+    <li><strong>Build trust</strong> — plain language, no jargon, no account required to explore.</li>
+  </ul>
+  <h3>Success metrics <span class="todo-pill">to measure in testing</span></h3>
+  <ul>
+    <li>Task success rate on "register with a GP" (target: ≥ 90% unaided)</li>
+    <li>Time to find a suitable, patient-accepting GP</li>
+    <li>Confidence rating before vs. after (1–5)</li>
+  </ul>
+</section>
+<div class="wrap"><hr></div>
+
+<!-- 4 RESEARCH -->
+<section class="block wrap">
+  <div class="sec-no">04 — Research</div>
+  <h2>Research plan (ready to run)</h2>
+  <p>The plan is designed so that a handful of conversations produce strong, specific insight. Below is the exact kit — recruit, interview, and survey — so the study is repeatable and the findings are defensible.</p>
+
+  <div class="kit">
+    <h4>Who I'll talk to</h4>
+    <p class="sub" style="margin-bottom:.6rem">5–6 people who moved to Ireland in the last ~2 years and have needed (or avoided) a GP. Mix of students, workers, and at least 2 non-native English speakers (incl. an Arabic speaker) to test the bilingual need.</p>
+    <h4>Method</h4>
+    <ul>
+      <li>30–40 min semi-structured interviews (video or in person)</li>
+      <li>A short screener survey to recruit and get baseline numbers</li>
+      <li>Verbal consent + recording permission captured at the start</li>
+    </ul>
+
+    <h4>Interview script</h4>
+    <div class="script">
+      <p class="q"><span class="you">Warm-up.</span> “Tell me about when you first arrived in Ireland. What were the first few things you had to sort out?”</p>
+      <p class="q"><span class="you">Story.</span> “Walk me through the last time you needed a doctor here. Start from the moment you realised you needed one.”</p>
+      <p class="q"><span class="you">Pain.</span> “What was the most confusing or frustrating part of that?”</p>
+      <p class="q"><span class="you">Workarounds.</span> “Where did you go for help or information? Who or what did you trust?”</p>
+      <p class="q"><span class="you">Language.</span> “Did language ever make it harder? When?”</p>
+      <p class="q"><span class="you">Emotion.</span> “How did the whole thing make you feel?”</p>
+      <p class="q"><span class="you">Magic wand.</span> “If you could have had one thing to make this easy, what would it have been?”</p>
+      <p class="q" style="margin-bottom:0"><span class="you">Wrap.</span> “Is there anything I didn't ask about that mattered?”</p>
+    </div>
+
+    <h4>Screener / survey questions</h4>
+    <ol>
+      <li>When did you move to Ireland?</li>
+      <li>Have you registered with a GP? (Yes / No / Tried but gave up)</li>
+      <li>How difficult was it? (1 very easy – 5 very hard)</li>
+      <li>What made it hard? (open text)</li>
+      <li>What language are you most comfortable dealing with health admin in?</li>
+      <li>Would you use an app that guided you through setting up in Ireland? (1–5)</li>
+    </ol>
+  </div>
+
+  <h3>Findings <span class="todo-pill">add after interviews</span></h3>
+  <div class="placeholder">Your real quotes, patterns and the survey chart go here once you've run the interviews. Aim for 3–5 themes, each backed by a verbatim quote.</div>
+
+  <h3>Working hypotheses — to confirm or kill</h3>
+  <div class="hyp"><span class="tag">Hypothesis · to validate</span><div>Newcomers don't know that GP registration is something you do yourself, proactively — many wait until they're sick.</div></div>
+  <div class="hyp"><span class="tag">Hypothesis · to validate</span><div>The single biggest blocker is not knowing <em>which</em> nearby practices are actually accepting new patients.</div></div>
+  <div class="hyp"><span class="tag">Hypothesis · to validate</span><div>For non-native English speakers, uncertainty about cost and documents is amplified; being able to see GPs who speak their language increases trust.</div></div>
+</section>
+<div class="wrap"><hr></div>
+
+<!-- 5 SYNTHESIS -->
+<section class="block wrap">
+  <div class="sec-no">05 — Synthesis</div>
+  <h2>Who we're designing for</h2>
+  <p class="sub">This is a <strong>proto-persona</strong> — built from desk research and assumptions, to be corrected by the interviews. That's the point: it gives the team something concrete to argue with.</p>
+
+  <div class="persona">
+    <div class="avatar">👩🏻‍💻</div>
+    <div>
+      <h4>Lina, 27 <span class="todo-pill">proto-persona · to validate</span></h4>
+      <div class="role">Moved from Syria 8 months ago · works in hospitality · more comfortable in Arabic</div>
+      <div class="grid2">
+        <div>
+          <h6>Goals</h6>
+          <ul>
+            <li>Get set up "properly" and feel settled</li>
+            <li>Find a doctor before she actually needs one</li>
+            <li>Avoid looking lost or asking the wrong thing</li>
+          </ul>
+        </div>
+        <div>
+          <h6>Frustrations</h6>
+          <ul>
+            <li>Conflicting advice online</li>
+            <li>Unsure what things cost or what's free</li>
+            <li>English health jargon is intimidating</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Journey map — registering with a GP today</h3>
+  <div class="journey">
+    <div class="stage"><div class="em">🤔</div><div class="st">Realise</div><div class="fe">"Do I even have a doctor here?"</div></div>
+    <div class="stage low"><div class="em">😣</div><div class="st">Search</div><div class="fe">Scattered info, dead ends</div></div>
+    <div class="stage low"><div class="em">😞</div><div class="st">Dead ends</div><div class="fe">Practices not taking patients</div></div>
+    <div class="stage"><div class="em">😐</div><div class="st">Prepare</div><div class="fe">Unsure which documents</div></div>
+    <div class="stage"><div class="em">🙂</div><div class="st">Register</div><div class="fe">Relief — if they get this far</div></div>
+  </div>
+  <p class="sub">The two lowest points — <strong>Search</strong> and <strong>Dead ends</strong> — are where the product should do the most work.</p>
+
+  <h3>How might we…</h3>
+  <ul>
+    <li>…help a newcomer find GPs near them that are <em>actually</em> accepting patients, in one tap?</li>
+    <li>…make cost and required documents obvious <em>before</em> they commit?</li>
+    <li>…make the whole thing feel as calm in Arabic as it does in English?</li>
+  </ul>
+</section>
+<div class="wrap"><hr></div>
+
+<!-- 6 DESIGN -->
+<section class="block wide wrap">
+  <div class="sec-no">06 — Design</div>
+  <h2>From flow to interface</h2>
+  <p>The flow was kept deliberately linear so there's always one obvious next step: <strong>Welcome → Setup checklist → Find a GP → Results → Practice detail → What you'll need → Confirmation.</strong> The checklist "hub" frames GP registration as one of several tasks, so the single flow still tells the bigger "settling in" story.</p>
+
+  <div class="shots">
+    <figure><img src="shots/en-hub.png" alt="Setup checklist hub"><figcaption>Setup checklist (hub)</figcaption></figure>
+    <figure><img src="shots/en-results.png" alt="GP results list"><figcaption>Only patient-accepting GPs</figcaption></figure>
+    <figure><img src="shots/en-detail.png" alt="GP practice detail"><figcaption>Cost, languages, hours up front</figcaption></figure>
+    <figure><img src="shots/en-confirm.png" alt="Confirmation screen"><figcaption>Confirmation + next step</figcaption></figure>
+  </div>
+
+  <h3>Key decisions</h3>
+  <ul>
+    <li><strong>Surface "accepting patients" as the primary filter.</strong> The #1 hypothesised blocker becomes the first thing you see on every result.</li>
+    <li><strong>Put cost and documents before commitment.</strong> The practice detail and "what you'll need" screens remove the fear of the unknown.</li>
+    <li><strong>No account to explore.</strong> Lowers the barrier for someone just trying to understand the system.</li>
+  </ul>
+
+  <h3>The differentiator — bilingual &amp; right-to-left</h3>
+  <p>The whole flow works in English and Arabic. Switching language doesn't just translate text — it flips the entire layout to <strong>right-to-left</strong>: navigation, progress direction, icon placement and alignment all mirror correctly. The app also surfaces GPs whose staff speak the user's language, turning localization into a genuine feature rather than an afterthought.</p>
+  <div class="rtl-row">
+    <figure><img src="shots/ar-welcome.png" alt="Arabic welcome screen (RTL)"><figcaption>العربية · Welcome (RTL)</figcaption></figure>
+    <figure><img src="shots/ar-hub.png" alt="Arabic checklist (RTL)"><figcaption>العربية · Checklist (RTL)</figcaption></figure>
+    <figure><img src="shots/ar-results.png" alt="Arabic results (RTL)"><figcaption>العربية · Results (RTL)</figcaption></figure>
+  </div>
+
+  <h3>Try the prototype</h3>
+  <p>It's fully clickable — tap through the flow, and use the toggle in the top corner to switch between English and Arabic.</p>
+  <div class="proto-embed">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp; prototype.html — clickable</div>
+    <iframe src="prototype.html" title="Settling in Ireland clickable prototype" loading="lazy"></iframe>
+  </div>
+  <a class="btn-live" href="prototype.html" target="_blank">Open prototype full screen ↗</a>
+</section>
+<div class="wrap"><hr></div>
+
+<!-- 7 TESTING -->
+<section class="block wrap">
+  <div class="sec-no">07 — Usability testing</div>
+  <h2>How I'll test it</h2>
+  <p>A quick, repeatable usability test on the clickable prototype — 3–5 participants is enough to surface the big problems.</p>
+  <div class="kit">
+    <h4>The task I'll give them</h4>
+    <div class="script"><p style="margin:0"><span class="you">Scenario:</span> “You've just moved to Dublin and you want to register with a local doctor. Using this app, find a GP near you that's taking new patients and sign up. Think aloud as you go.”</p></div>
+    <h4>What I'll measure</h4>
+    <ul>
+      <li>Did they complete it without help? Where did they hesitate?</li>
+      <li>Did they understand "accepting patients", cost, and documents?</li>
+      <li>Confidence rating before vs. after (1–5)</li>
+      <li>For Arabic speakers: did RTL feel natural, or were there rough edges?</li>
+    </ul>
+    <h4>Results <span class="todo-pill">add after testing</span></h4>
+    <div class="placeholder" style="margin-top:.4rem">What broke, what you changed, and a before/after of the fix goes here. This iteration loop is the part hiring managers read most closely.</div>
+  </div>
+</section>
+<div class="wrap"><hr></div>
+
+<!-- 8 REFLECTION -->
+<section class="block wrap">
+  <div class="sec-no">08 — Reflection &amp; next steps</div>
+  <h2>What's next</h2>
+  <ul>
+    <li><strong>Run the interviews</strong> and replace every "to validate" marker with real evidence (or change the design where the evidence disagrees).</li>
+    <li><strong>Test the prototype</strong> with 5 people, including an Arabic speaker, and document the iteration.</li>
+    <li><strong>Expand one more flow</strong> (likely "open a bank account") once the GP flow is validated.</li>
+  </ul>
+  <h3>What I'm learning</h3>
+  <p class="sub">Designing honestly means separating what I <em>believe</em> from what I've <em>proven</em>. Everything marked as a hypothesis on this page is a bet I'm about to test — and showing that process openly is, I think, more convincing than a polished story that hides its assumptions.</p>
+</section>
+
+</main>
+
+<footer class="wrap">
+  <div class="big">Want to talk through this project?</div>
+  <a href="../index.html#contact">Get in touch →</a>
+  <small>© 2026 Abeer AbouHajar · Settling in Ireland is a self-initiated UX case study · Designed in Fraunces &amp; Inter</small>
+</footer>
+
+<script>
+const tt=document.getElementById('tt');
+const saved=localStorage.getItem('abeer-theme');
+if(saved) document.documentElement.setAttribute('data-theme',saved);
+tt.addEventListener('click',()=>{
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  const next=dark?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  localStorage.setItem('abeer-theme',next);
+});
+addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>30));
+</script>
+</body>
+</html>

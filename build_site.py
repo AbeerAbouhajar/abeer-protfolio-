@@ -1,0 +1,437 @@
+import json
+
+manifest = json.load(open("manifest.json", encoding="utf-8"))
+
+# Curated, honest content grounded in the real Behance data.
+# Order = showcase order.
+PROJECTS = [
+  {
+    "id": "239291105",
+    "title": "Syrian Memories",
+    "subtitle": "An Interactive Digital Archive",
+    "category": "Interactive · Web",
+    "year": "2025",
+    "fields": ["Interaction Design", "Web Design", "Digital Art"],
+    "tools": [],
+    "desc": [
+      "Syrian Memories is an interactive multimedia website created as my final-year project in Interactive Digital Art & Design. The aim is to preserve and celebrate the positive memories, culture, and personal stories of Syrian people, ensuring they are not lost amid ongoing conflict.",
+      "In a world where Syria is often only seen through the lens of conflict, this platform offers a different perspective — one that focuses on joy, nostalgia, beauty, and the personal moments shared by Syrians. By combining coding, digital art, and user-experience design, I created a space where memories can be listened to, seen, and felt."
+    ],
+  },
+  {
+    "id": "153163459",
+    "title": "B&B Website",
+    "subtitle": "End-to-end case study",
+    "category": "UX Case Study",
+    "year": "2022",
+    "fields": ["UX / UI", "Web Design", "Graphic Design"],
+    "tools": ["VS Code"],
+    "desc": [
+      "An end-to-end UX case study for a bed-and-breakfast website — taking the project from research and user flows through to a coded, responsive marketing site.",
+      "The work moves through the full design process: understanding the guest, structuring the content, designing the interface, and building it out in code."
+    ],
+  },
+  {
+    "id": "151817693",
+    "title": "News Aggregator",
+    "subtitle": "UX research & UI",
+    "category": "UX Design",
+    "year": "2022",
+    "fields": ["UX Research", "UI Design"],
+    "tools": [],
+    "desc": [
+      "A UX case study for a news-aggregator product — research, user flows, and interface design for browsing and personalising news from multiple sources in one place.",
+      "The project focuses on reducing noise and helping readers quickly find the stories that matter to them."
+    ],
+  },
+  {
+    "id": "151495445",
+    "title": "To-Do App",
+    "subtitle": "Mobile & web product",
+    "category": "UX / UI",
+    "year": "2022",
+    "fields": ["UX / UI", "Product"],
+    "tools": ["Photoshop", "Penpot"],
+    "desc": [
+      "A to-do app designed to help people organise their daily tasks, with a clean, focused interface across mobile and web.",
+      "The emphasis is on clarity and calm — making it effortless to capture, prioritise, and complete what matters each day."
+    ],
+  },
+  {
+    "id": "239273067",
+    "title": "VFX Course Promotion",
+    "subtitle": "3D animation & Python",
+    "category": "3D · Motion",
+    "year": "2025",
+    "fields": ["3D Modeling", "3D Art", "Digital Art"],
+    "tools": ["Blender", "Python"],
+    "desc": [
+      "A 3D animated promotional video created for a college course at South East Technological University (SETU).",
+      "The goal was to visually communicate the three core areas the course covers, combining 3D animation with a touch of Python."
+    ],
+  },
+  {
+    "id": "151668755",
+    "title": "The Princess Knight",
+    "subtitle": "Browser game in JavaScript",
+    "category": "Creative Code",
+    "year": "2022",
+    "fields": ["Creative Code", "Game Design"],
+    "tools": ["JavaScript"],
+    "desc": [
+      "“The Princess Knight” — a browser game built in JavaScript, covering both the gameplay and the code behind it.",
+      "A playful experiment in interaction and logic, bringing a small character-driven world to life in the browser."
+    ],
+  },
+  {
+    "id": "151719935",
+    "title": "Syrian Map Poster",
+    "subtitle": "Editorial illustration",
+    "category": "Illustration",
+    "year": "2022",
+    "fields": ["Illustration", "Digital Art"],
+    "tools": [],
+    "desc": [
+      "An illustrated editorial poster of Syria labelled with its city names, blending Arabic typography with digital illustration.",
+      "A personal piece celebrating place, language, and the shape of home."
+    ],
+  },
+  {
+    "id": "151584309",
+    "title": "Logo Design",
+    "subtitle": "Brand mark",
+    "category": "Branding",
+    "year": "2022",
+    "fields": ["Branding", "Graphic Design", "Label Design"],
+    "tools": ["Photoshop"],
+    "desc": [
+      "A logo design created for a pet boutique — exploring marks, type, and a warm, friendly brand feel.",
+      "The result is a playful but polished identity suited to a small, characterful business."
+    ],
+  },
+  {
+    "id": "239271985",
+    "title": "Graduation Welcome Card",
+    "subtitle": "Print & layout",
+    "category": "Graphic Design",
+    "year": "2025",
+    "fields": ["Illustration", "Graphic Design"],
+    "tools": ["Figma"],
+    "desc": [
+      "This welcome card was designed for a graduation celebration, with the goal of creating a clean, elegant and timeless look.",
+      "The soft neutral tones and minimal line art reflect calmness, pride, and a new beginning, while the botanical elements add a gentle, organic touch."
+    ],
+  },
+]
+
+# attach images from manifest
+for p in PROJECTS:
+    m = manifest.get(p["id"], {})
+    p["cover"] = m.get("cover")
+    p["images"] = m.get("images", [])
+
+data_js = json.dumps(PROJECTS, ensure_ascii=False, indent=2)
+
+HTML = r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abeer AbouHajar — UX / Product Designer</title>
+<meta name="description" content="Portfolio of Abeer AbouHajar — UX / Product Designer. Selected work in product design, UX, interaction, and visual storytelling.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f5f1ea; --surface:#fffdf9; --surface-2:#efe9df; --text:#1f1b17; --muted:#6c655c;
+  --line:rgba(31,27,23,.12); --accent:#b4552f; --accent-soft:rgba(180,85,47,.12);
+  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  --shadow:0 2px 20px rgba(60,40,20,.08); --shadow-lg:0 24px 60px rgba(60,40,20,.18);
+}
+[data-theme="dark"]{
+  --bg:#14120f; --surface:#1d1a15; --surface-2:#262219; --text:#f1ece3; --muted:#a79e91;
+  --line:rgba(241,236,227,.14); --accent:#e08a63; --accent-soft:rgba(224,138,99,.16);
+  --shadow:0 2px 20px rgba(0,0,0,.4); --shadow-lg:0 24px 60px rgba(0,0,0,.55);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;transition:background .45s,color .45s;overflow-x:hidden}
+body.lock{overflow:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding:0 2rem}
+a{color:inherit}
+
+/* nav */
+nav{position:fixed;inset:0 0 auto 0;z-index:60;display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2rem;transition:background .3s,box-shadow .3s,padding .3s}
+nav.scrolled{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line);padding-top:.9rem;padding-bottom:.9rem}
+.logo{font-family:var(--serif);font-size:1.3rem;font-weight:500;text-decoration:none;letter-spacing:.2px}
+.logo em{font-style:italic;color:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:1.9rem}
+.nav-links{display:flex;gap:1.9rem;list-style:none}
+.nav-links a{text-decoration:none;font-size:.73rem;font-weight:500;letter-spacing:1.6px;text-transform:uppercase;position:relative;color:var(--text)}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-5px;height:1px;width:0;background:var(--accent);transition:width .3s}
+.nav-links a:hover::after{width:100%}
+.tt{width:36px;height:36px;border:1.5px solid var(--line);border-radius:50%;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .5s,border-color .3s;color:var(--text)}
+.tt:hover{transform:rotate(35deg);border-color:var(--accent)}
+.tt svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round}
+.tt .moon{display:none}[data-theme="dark"] .tt .sun{display:none}[data-theme="dark"] .tt .moon{display:block}
+
+/* hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 0 5rem}
+.eyebrow{font-size:.74rem;letter-spacing:3.5px;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:1.6rem}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,7vw,5.6rem);line-height:1.04;letter-spacing:-.5px;max-width:16ch}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero .lead{margin-top:1.9rem;max-width:52ch;color:var(--muted);font-size:1.07rem;line-height:1.8;font-weight:300}
+.hero-actions{margin-top:2.6rem;display:flex;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.95rem 1.7rem;border-radius:40px;font-size:.82rem;font-weight:600;letter-spacing:.4px;text-decoration:none;cursor:pointer;border:1.5px solid transparent;transition:transform .25s,background .25s,border-color .25s,color .25s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{border-color:var(--line);color:var(--text)}
+.btn-ghost:hover{border-color:var(--text);transform:translateY(-2px)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.hero .eyebrow{transition-delay:.05s}.hero h1{transition-delay:.15s}.hero .lead{transition-delay:.3s}.hero-actions{transition-delay:.45s}
+
+/* section head */
+.section{padding:5.5rem 0}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:3rem;flex-wrap:wrap}
+.section-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.5vw,3.2rem);letter-spacing:-.5px}
+.section-head .count{font-size:.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:500}
+
+/* work grid */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}
+.card{cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s}
+.card:hover{transform:translateY(-7px);box-shadow:var(--shadow-lg)}
+.card .ph{position:relative;aspect-ratio:16/11;overflow:hidden;background:var(--surface-2)}
+.card .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.card:hover .ph img{transform:scale(1.05)}
+.card .view{position:absolute;right:1rem;bottom:1rem;background:var(--surface);color:var(--text);font-size:.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:.55rem .9rem;border-radius:30px;opacity:0;transform:translateY(8px);transition:.35s;box-shadow:var(--shadow)}
+.card:hover .view{opacity:1;transform:none}
+.card .meta{padding:1.4rem 1.5rem 1.6rem}
+.card .cat{font-size:.65rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);font-weight:700}
+.card h3{font-family:var(--serif);font-weight:500;font-size:1.5rem;margin:.5rem 0 .25rem;letter-spacing:-.3px}
+.card .sub{color:var(--muted);font-size:.9rem}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3.5rem;align-items:start}
+.about p{color:var(--muted);font-size:1.05rem;line-height:1.85;margin-bottom:1.1rem;max-width:56ch}
+.about p strong{color:var(--text);font-weight:500}
+.about .skills{display:flex;flex-direction:column;gap:1.3rem}
+.about .skills h4{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.7rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{font-size:.78rem;font-weight:500;padding:.45rem .9rem;border-radius:30px;background:var(--surface);border:1px solid var(--line);color:var(--text)}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:5rem 0 3rem;text-align:center;background:var(--surface)}
+footer .big{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,5vw,3.4rem);letter-spacing:-.5px;margin-bottom:1.6rem}
+footer .big em{font-style:italic;color:var(--accent)}
+footer .links{display:flex;gap:1.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem}
+footer .links a{text-decoration:none;font-size:.75rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:var(--text);padding-bottom:3px;border-bottom:1.5px solid transparent;transition:border-color .3s,color .3s}
+footer .links a:hover{color:var(--accent);border-color:var(--accent)}
+footer small{color:var(--muted);font-size:.74rem;letter-spacing:.3px}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:100;display:none}
+.modal.open{display:block}
+.modal .backdrop{position:absolute;inset:0;background:rgba(10,8,6,.55);backdrop-filter:blur(4px);opacity:0;transition:opacity .4s}
+.modal.open .backdrop{opacity:1}
+.modal .panel{position:absolute;inset:0;overflow-y:auto;background:var(--bg);transform:translateY(24px);opacity:0;transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .4s}
+.modal.open .panel{transform:none;opacity:1}
+.modal-nav{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 2rem;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.modal-nav .mt{font-family:var(--serif);font-size:1.05rem;font-weight:500}
+.mclose{display:inline-flex;align-items:center;gap:.5rem;background:none;border:1.5px solid var(--line);color:var(--text);border-radius:30px;padding:.5rem 1.05rem;font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:border-color .3s,color .3s}
+.mclose:hover{border-color:var(--accent);color:var(--accent)}
+.case{max-width:900px;margin:0 auto;padding:3.5rem 2rem 5rem}
+.case .cat{font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);font-weight:700}
+.case h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.2rem,6vw,4rem);line-height:1.05;letter-spacing:-.5px;margin:.7rem 0 .4rem}
+.case .subtitle{color:var(--muted);font-size:1.1rem;font-style:italic;font-family:var(--serif)}
+.case .facts{display:flex;flex-wrap:wrap;gap:2.5rem;margin:2.2rem 0;padding:1.6rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.case .fact h5{font-size:.66rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.5rem}
+.case .fact .chips{gap:.4rem}
+.case .fact p{font-size:.95rem;font-weight:500}
+.case .desc p{font-size:1.1rem;line-height:1.9;color:var(--text);margin-bottom:1.2rem;max-width:62ch}
+.case .gallery{margin-top:3rem;display:flex;flex-direction:column;gap:1.4rem}
+.case .gallery img{width:100%;display:block;border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--surface-2)}
+.case .endbtns{margin-top:3rem;display:flex;gap:1rem;flex-wrap:wrap}
+
+@media(max-width:880px){
+  .grid{grid-template-columns:1fr;gap:1.5rem}
+  .about-grid{grid-template-columns:1fr;gap:2.5rem}
+  .nav-links{display:none}
+  .wrap{padding:0 1.3rem}
+  nav{padding:1rem 1.3rem}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="logo" href="#top">Abeer <em>AbouHajar</em></a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="tt" id="tt" aria-label="Toggle light / dark theme">
+      <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>
+      <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<header class="hero wrap" id="top">
+  <div class="eyebrow reveal">UX / Product Designer · Dublin</div>
+  <h1 class="reveal">Designing calm, <em>human</em> experiences for complex products.</h1>
+  <p class="lead reveal">I'm Abeer — a UX designer with two years crafting enterprise experiences at Ericsson. Much of that work lives behind the firewall, so here is a selection of earlier projects that show how I think about people, interfaces, and craft.</p>
+  <div class="hero-actions reveal">
+    <a class="btn btn-primary" href="#work">View selected work</a>
+    <a class="btn btn-ghost" href="#contact">Get in touch</a>
+  </div>
+</header>
+
+<section class="section wrap" id="work">
+  <div class="section-head reveal">
+    <h2>Selected Work</h2>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="section wrap about" id="about">
+  <div class="section-head reveal"><h2>About</h2></div>
+  <div class="about-grid">
+    <div class="reveal">
+      <p>I'm a <strong>UX / Product designer</strong> based in Dublin, currently shaping enterprise experiences at <strong>Ericsson</strong>. I enjoy the messy middle of product work — turning complex, ambiguous problems into interfaces that feel obvious and calm to use.</p>
+      <p>My background spans <strong>UX research, interaction design, and visual craft</strong>, with a creative-coding and illustration streak that shows up in my personal projects. The work below ranges from product case studies to interactive archives, games, and editorial design.</p>
+    </div>
+    <div class="skills reveal">
+      <div>
+        <h4>What I do</h4>
+        <div class="chips">
+          <span class="chip">UX Research</span><span class="chip">Interaction Design</span>
+          <span class="chip">UI Design</span><span class="chip">Prototyping</span>
+          <span class="chip">Design Systems</span><span class="chip">Usability Testing</span>
+        </div>
+      </div>
+      <div>
+        <h4>Tools & tech</h4>
+        <div class="chips">
+          <span class="chip">Figma</span><span class="chip">Photoshop</span>
+          <span class="chip">Penpot</span><span class="chip">Blender</span>
+          <span class="chip">HTML / CSS / JS</span><span class="chip">Python</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="big reveal">Let's make something <em>people love.</em></div>
+    <div class="links reveal">
+      <a href="mailto:hello@example.com">Email</a>
+      <a href="#" aria-label="LinkedIn">LinkedIn</a>
+    </div>
+    <small>© 2026 Abeer AbouHajar · Designed in Fraunces &amp; Inter</small>
+  </div>
+</footer>
+
+<div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="backdrop" data-close></div>
+  <div class="panel" id="panel">
+    <div class="modal-nav">
+      <span class="mt" id="m-logo">Abeer AbouHajar</span>
+      <button class="mclose" data-close>✕ Close</button>
+    </div>
+    <article class="case" id="case"></article>
+  </div>
+</div>
+
+<script>
+const PROJECTS = __DATA__;
+
+/* render cards */
+const grid = document.getElementById('grid');
+document.getElementById('count').textContent = '(' + String(PROJECTS.length).padStart(2,'0') + ' Projects)';
+PROJECTS.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'card reveal';
+  card.style.transitionDelay = (i % 2 * 0.08) + 's';
+  card.innerHTML = `
+    <div class="ph"><img src="${p.cover}" alt="${p.title}" loading="lazy">
+      <span class="view">View project →</span></div>
+    <div class="meta">
+      <span class="cat">${p.category}</span>
+      <h3>${p.title}</h3>
+      <div class="sub">${p.subtitle}</div>
+    </div>`;
+  card.addEventListener('click', () => openCase(p));
+  grid.appendChild(card);
+});
+
+/* modal */
+const modal = document.getElementById('modal');
+const caseEl = document.getElementById('case');
+const panel = document.getElementById('panel');
+
+function chipRow(arr){ return arr.map(x=>`<span class="chip">${x}</span>`).join(''); }
+
+function openCase(p){
+  const facts = [];
+  facts.push(`<div class="fact"><h5>Year</h5><p>${p.year}</p></div>`);
+  if(p.fields && p.fields.length) facts.push(`<div class="fact"><h5>Discipline</h5><div class="chips">${chipRow(p.fields)}</div></div>`);
+  if(p.tools && p.tools.length) facts.push(`<div class="fact"><h5>Tools</h5><div class="chips">${chipRow(p.tools)}</div></div>`);
+  const desc = p.desc.map(t=>`<p>${t}</p>`).join('');
+  const gallery = p.images.map(src=>`<img src="${src}" alt="${p.title}" loading="lazy">`).join('');
+  caseEl.innerHTML = `
+    <span class="cat">${p.category}</span>
+    <h2>${p.title}</h2>
+    <div class="subtitle">${p.subtitle}</div>
+    <div class="facts">${facts.join('')}</div>
+    <div class="desc">${desc}</div>
+    <div class="gallery">${gallery}</div>
+    <div class="endbtns">
+      <button class="btn btn-ghost" data-close>← Back to work</button>
+    </div>`;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  document.body.classList.add('lock');
+  panel.scrollTop = 0;
+}
+function closeCase(){
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+  document.body.classList.remove('lock');
+}
+modal.addEventListener('click', e => { if(e.target.hasAttribute('data-close')) closeCase(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && modal.classList.contains('open')) closeCase(); });
+
+/* theme */
+const tt = document.getElementById('tt');
+const saved = localStorage.getItem('abeer-theme');
+if(saved) document.documentElement.setAttribute('data-theme', saved);
+tt.addEventListener('click', () => {
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const next = dark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('abeer-theme', next);
+});
+
+/* nav scrolled */
+addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', scrollY > 40));
+
+/* reveal on scroll */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
+"""
+
+html = HTML.replace("__DATA__", data_js)
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html)
+print("index.html written:", len(html), "bytes")
